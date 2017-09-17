@@ -31,3 +31,5 @@ const webpackConfig = Object.assign({}, config, {
     hot: true,
   },
 });
+
+module.exports = webpackConfig;

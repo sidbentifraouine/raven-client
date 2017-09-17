@@ -1,9 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-const Hello = () => <h1>Hello, Fugee</h1>;
+import Room from './components/Room';
 
 ReactDOM.render(
-  <Hello />,
+  <Room />,
   document.getElementById('app'),
 );

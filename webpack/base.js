@@ -10,8 +10,8 @@ const dir = {
 const config = {
   entry: {
     bundle: './src/index',
-    react: ['react', 'react-dom'],
-    vendors: ['socket.io'],
+    react: ['react', 'react-dom', 'prop-types'],
+    vendors: ['socket.io-client'],
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -49,4 +49,5 @@ module.exports = {
   dir,
   config,
   rules,
+  plugins,
 };
