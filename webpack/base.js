@@ -31,6 +31,12 @@ const rules = [{
   test: /\.jsx?$/,
   exclude: dir.modules,
   use: 'babel-loader',
+}, {
+  test: /\.(jpe?g|png|gif)$/,
+  loader: 'file-loader',
+  options: {
+    name: 'icons/[name].[hash:8].[ext]',
+  },
 }];
 
 const plugins = [

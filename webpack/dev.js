@@ -1,5 +1,5 @@
 const webpack = require('webpack');
-const { resolve } = require('path');
+const { resolve, join } = require('path');
 const { config, rules, plugins } = require('./base');
 
 const webpackConfig = Object.assign({}, config, {
@@ -12,6 +12,17 @@ const webpackConfig = Object.assign({}, config, {
   module: {
     rules: [
       ...rules,
+      {
+        test: /\.css$/,
+        include: [
+          join(__dirname, '../src/components'),
+        ],
+        use: [
+          'style-loader',
+          'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
+          'postcss-loader',
+        ],
+      },
     ],
   },
   plugins: [

@@ -1,0 +1,6 @@
+@import '../../variables.css';
+
+.vidBox {
+  border: 1px solid var(--video-border-color);
+  margin-right: 15px;
+}
