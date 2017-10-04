@@ -9,7 +9,7 @@ const webpackConfig = Object.assign({}, config, {
   output: {
     filename: 'scripts/[name].[chunkhash:8].js',
     path: resolve(__dirname, '..', 'build'),
-    publicPath: 'http://localhost:3333/',
+    publicPath: '/',
   },
   module: {
     rules: [
