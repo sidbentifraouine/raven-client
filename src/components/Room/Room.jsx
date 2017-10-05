@@ -6,11 +6,17 @@ class Room extends PureComponent {
   static propTypes = {
     peers: PropTypes.arrayOf(
       PropTypes.shape({
-        id: PropTypes.number,
+        id: PropTypes.string,
         stream: PropTypes.string,
       }),
     ).isRequired,
+    requestMediaStream: PropTypes.func.isRequired,
+    localStream: PropTypes.string.isRequired,
   };
+
+  componentDidMount() {
+    this.props.requestMediaStream();
+  }
 
   render() {
     return (
@@ -19,7 +25,7 @@ class Room extends PureComponent {
           <video
             autoPlay
             className={theme.vidBox}
-            src={window.localStream}
+            src={this.props.localStream}
           >
             <track kind="captions" />
           </video>

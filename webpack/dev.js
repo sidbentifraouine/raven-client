@@ -15,7 +15,7 @@ const webpackConfig = Object.assign({}, config, {
       {
         test: /\.css$/,
         include: [
-          join(__dirname, '../src/components'),
+          join(__dirname, '../src'),
         ],
         use: [
           'style-loader',

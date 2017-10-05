@@ -9,7 +9,7 @@ const webpackConfig = Object.assign({}, config, {
   output: {
     filename: 'scripts/[name].[chunkhash:8].js',
     path: resolve(__dirname, '..', 'build'),
-    publicPath: '/',
+    publicPath: `${process.env.URI_PREFIX}/`,
   },
   module: {
     rules: [
@@ -17,7 +17,7 @@ const webpackConfig = Object.assign({}, config, {
       {
         test: /\.css$/,
         include: [
-          join(__dirname, '../src/components'),
+          join(__dirname, '../src'),
         ],
         use: ExtractTextPlugin.extract({
           fallback: 'style-loader',

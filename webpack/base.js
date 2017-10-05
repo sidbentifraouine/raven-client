@@ -37,6 +37,14 @@ const rules = [{
   options: {
     name: 'icons/[name].[hash:8].[ext]',
   },
+}, {
+  test: /\.(ttf|otf)(\?[a-z0-9=&.]+)?$/,
+  loader: 'url-loader',
+  options: {
+    limit: 1024,
+    mimetype: 'application/octet-stream',
+    name: 'fonts/[name].[hash:8].[ext]',
+  },
 }];
 
 const plugins = [
@@ -47,6 +55,9 @@ const plugins = [
     filename: 'index.html',
     template: 'src/index.ejs',
     title: 'Fugee',
+  }),
+  new webpack.DefinePlugin({
+    URI_PREFIX: JSON.stringify(process.env.URI_PREFIX),
   }),
   new webpack.NamedModulesPlugin(),
 ];

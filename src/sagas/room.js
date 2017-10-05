@@ -1,23 +1,24 @@
 import { eventChannel } from 'redux-saga';
 import { all, call, put, fork, takeEvery } from 'redux-saga/effects';
-import { browserHistory } from 'react-router';
+import uuidv4 from 'uuid/v4';
 import {
   WS_MESSAGE_RECEIVED,
   WS_MESSAGE_SEND,
   PEER_STREAM_ADDED,
   WS_PEER_CONNECTED,
-  GET_VIDEO_STREAM,
+  GET_LOCAL_VIDEO_STREAM_PENDING,
+  GET_LOCAL_VIDEO_STREAM_SUCCESS,
+  JOIN_ROOM,
 } from '../actions';
 import iceConfig from '../config/iceConfig';
 import { createListener } from './helpers';
 import getVideoStream from '../services/videoStream';
 import { WS_MESSAGE_TYPES } from '../constants';
+import history from '../services/history';
 
 const peerConnections = {};
 let currentId;
 let roomId; // eslint-disable-line
-let connected = false;
-let stream;
 
 const createPeerConnectionEmitter = (id, pc) => (emitter) => {
   // eslint-disable-next-line
@@ -53,6 +54,8 @@ function* getPeerConnection(id) {
 
   const pc = new RTCPeerConnection(iceConfig);
   peerConnections[id] = pc;
+
+  const stream = yield call(getVideoStream);
   pc.addStream(stream);
 
   const channel = eventChannel(createPeerConnectionEmitter(id, pc));
@@ -97,8 +100,12 @@ function* handleSdpAnswerReceived(pc, answer) {
 
 function* handleIceCandidateReceived(pc, candidate) {
   if (candidate) {
-    yield call(global.console.log, 'Adding ice candidates');
-    yield call([pc, pc.addIceCandidate], new RTCIceCandidate(candidate));
+    try {
+      yield call(global.console.log, 'Adding ice candidates');
+      yield call([pc, pc.addIceCandidate], new RTCIceCandidate(candidate));
+    } catch (error) {
+      yield call(global.console.log, '[handleIceCandidateReceived]', error, candidate);
+    }
   }
 }
 
@@ -121,57 +128,37 @@ function* handleMessage(action) {
   }
 }
 
-function* createRoom() {
+function* joinRoom(action) {
+  const { room } = action.payload;
+
   yield put({
     type: WS_MESSAGE_SEND,
     payload: {
       namespace: WS_MESSAGE_TYPES.INIT,
-      message: null,
+      message: { room, userID: uuidv4() },
       callback: (roomid, id) => {
-        roomId = roomid;
         currentId = id;
-        connected = true;
+        roomId = roomid;
 
-        browserHistory.push(`/${roomid}`);
+        history.push(`/room/${roomid}`);
       },
     },
   });
 }
 
-function* joinRoom(room) {
-  if (!connected) {
-    yield put({
-      type: WS_MESSAGE_SEND,
-      payload: {
-        namespace: WS_MESSAGE_TYPES.INIT,
-        message: { room },
-        callback: (roomid, id) => {
-          currentId = id;
-          roomId = roomid;
-        },
-      },
-    });
-    connected = true;
-  }
-}
-
-function* requestVideoStream(action) {
-  const params = action.payload;
+function* requestVideoStream() {
   const localStream = yield call(getVideoStream);
-  stream = localStream;
-  window.localStream = URL.createObjectURL(localStream);
-
-  if (!params.roomId) {
-    yield call(createRoom);
-  } else {
-    yield call(joinRoom, params.roomId);
-  }
+  yield put({
+    type: GET_LOCAL_VIDEO_STREAM_SUCCESS,
+    payload: { stream: URL.createObjectURL(localStream) },
+  });
 }
 
 export default function () {
   return all([
     takeEvery(WS_MESSAGE_RECEIVED, handleMessage),
     takeEvery(WS_PEER_CONNECTED, makeOffer),
-    takeEvery(GET_VIDEO_STREAM, requestVideoStream),
+    takeEvery(GET_LOCAL_VIDEO_STREAM_PENDING, requestVideoStream),
+    takeEvery(JOIN_ROOM, joinRoom),
   ]);
 }

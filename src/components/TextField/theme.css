@@ -1,0 +1,32 @@
+@import '../../variables.css';
+
+.textField {
+  position: relative;
+}
+
+.input {
+  font-family: var(--preferred-font);
+  font-size: var(--font-size-normal);
+  font-weight: var(--font-weight-normal);
+  background: transparent;
+  border: 0;
+  color: #999;
+  outline: none;
+  border-bottom: 1px solid;
+  border-bottom-color: #999;
+  width: 100%;
+  height: 35px;
+  padding: 0 15px;
+  text-align: center;
+
+  &:focus {
+    color: #fff;
+    border-bottom-color: #fff;
+    transition: border-bottom-color 0.3s ease-in-out;
+  }
+
+  &::-webkit-input-placeholder,
+  &:-ms-input-placeholder {
+    color: #999;
+  }
+}
