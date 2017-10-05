@@ -4,7 +4,7 @@
   "description": "P2P Audio/Video conference",
   "main": "index.js",
   "scripts": {
-    "build": "URI_PREFIX=/fugee yarn clean && webpack --env=prod",
+    "build": "yarn clean && webpack --env=prod",
     "start": "webpack-dev-server --env=dev",
     "clean": "rimraf ./build"
   },
