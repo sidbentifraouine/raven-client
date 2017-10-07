@@ -4,9 +4,9 @@
   "description": "P2P Audio/Video conference",
   "main": "index.js",
   "scripts": {
-    "build": "yarn clean && webpack --env=prod",
-    "start": "webpack-dev-server --env=dev",
-    "clean": "rimraf ./build"
+    "prebuild": "rimraf ./build",
+    "build": "URI_PREFIX=/fugee SIGNALING_URL=https://172.29.200.9 SIGNALING_PATH=/signaling/ webpack --env=prod",
+    "start": "webpack-dev-server --env=dev"
   },
   "keywords": [
     "p2p",

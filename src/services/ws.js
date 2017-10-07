@@ -2,7 +2,7 @@ import io from 'socket.io-client';
 
 export default {
   open(hostname) {
-    const socket = io(hostname);
+    const socket = io(hostname, { path: SIGNALING_PATH });
 
     return new Promise((resolve, reject) => {
       socket.on('connect', () => resolve(socket));

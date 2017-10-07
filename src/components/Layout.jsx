@@ -8,7 +8,7 @@ class Layout extends PureComponent {
   };
 
   componentDidMount() {
-    this.props.openConnection('http://localhost:3334');
+    this.props.openConnection(SIGNALING_URL);
   }
 
   render() {

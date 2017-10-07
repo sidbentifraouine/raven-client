@@ -2,7 +2,9 @@
   "extends": "airbnb",
   "parser": "babel-eslint",
   "globals": {
-    "URI_PREFIX": false
+    "URI_PREFIX": false,
+    "SIGNALING_URL": false,
+    "SIGNALING_PATH": false
   },
   "env": {
     "browser": true

@@ -58,6 +58,8 @@ const plugins = [
   }),
   new webpack.DefinePlugin({
     URI_PREFIX: JSON.stringify(process.env.URI_PREFIX),
+    SIGNALING_URL: JSON.stringify(process.env.SIGNALING_URL),
+    SIGNALING_PATH: JSON.stringify(process.env.SIGNALING_PATH),
   }),
   new webpack.NamedModulesPlugin(),
 ];
