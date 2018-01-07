@@ -1,52 +1,35 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
 import TextField from '../TextField';
 import Button from '../Button';
+import history from '../../services/history';
 import theme from './theme.css';
 
 class Login extends PureComponent {
-  static propTypes = {
-    location: PropTypes.object.isRequired,
-    joinRoom: PropTypes.func.isRequired,
-  };
-
   state = {
-    roomid: this.props.location.hash,
+    room: '',
   };
 
-  handleRoomIdChange = (roomid) => {
-    this.setState({ roomid });
+  handleChange = (value) => {
+    this.setState({ room: value });
   };
 
-  handleJoin = () => {
-    global.console.log('[Login] - handle join room');
-    this.props.joinRoom(this.state.roomid);
+  handleEnterClick = () => {
+    history.push(`/${this.state.room}`);
   };
 
   render() {
     return (
-      <div
-        className={theme.container}
-      >
-        <div className={theme.overlay} />
-        <div className={theme.form}>
-          <div className={theme.row}>
-            <h1 className={theme.logo}>Fugee</h1>
-          </div>
-          <div className={theme.row}>
-            <TextField
-              value={this.state.roomid}
-              onChange={this.handleRoomIdChange}
-              placeholder="Enter room ID"
-            />
-          </div>
-          <div className={theme.row}>
-            <Button
-              title="Join"
-              onClick={this.handleJoin}
-            />
-          </div>
-        </div>
+      <div className={theme.login}>
+        <TextField
+          value={this.state.room}
+          placeholder="Please enter room id"
+          onChange={this.handleChange}
+        />
+        <Button
+          title="Enter"
+          onClick={this.handleEnterClick}
+          disabled={!this.state.room}
+        />
       </div>
     );
   }

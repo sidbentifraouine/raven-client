@@ -1,10 +1,8 @@
 import { all } from 'redux-saga/effects';
-import ws from './ws';
-import room from './room';
+import conference from './conference';
 
 export default function* rootSaga() {
   yield all([
-    ws(),
-    room(),
+    conference(),
   ]);
 }

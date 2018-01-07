@@ -20,7 +20,7 @@
   text-align: center;
 
   &:focus {
-    color: #fff;
+    /* color: #fff; */
     border-bottom-color: #fff;
     transition: border-bottom-color 0.3s ease-in-out;
   }

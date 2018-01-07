@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "rimraf ./build",
     "build": "URI_PREFIX=/fugee SIGNALING_URL=https://172.29.200.9 SIGNALING_PATH=/signaling/ webpack --env=prod",
-    "start": "webpack-dev-server --env=dev"
+    "start": "SIGNALING_URL=ws://localhost:3334 webpack-dev-server --env=dev"
   },
   "keywords": [
     "p2p",
@@ -19,6 +19,7 @@
   "author": "Alexey Vakulich <soulSpringg@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@ok2ju/simple-multi-peer": "^0.1.2",
     "babel-polyfill": "^6.26.0",
     "prop-types": "^15.6.0",
     "react": "^16.0.0",
