@@ -10,8 +10,6 @@ const dir = {
 const config = {
   entry: {
     bundle: './src/index',
-    react: ['react', 'react-dom', 'prop-types'],
-    vendors: ['socket.io-client'],
   },
   resolve: {
     extensions: ['.js', '.jsx'],
@@ -48,13 +46,10 @@ const rules = [{
 }];
 
 const plugins = [
-  new webpack.optimize.CommonsChunkPlugin({
-    names: ['react', 'vendors'],
-  }),
   new HtmlWebpackPlugin({
     filename: 'index.html',
     template: 'src/index.ejs',
-    title: 'Fugee',
+    title: 'Raven',
   }),
   new webpack.DefinePlugin({
     URI_PREFIX: JSON.stringify(process.env.URI_PREFIX),

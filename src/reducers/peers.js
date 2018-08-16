@@ -1,7 +1,7 @@
 import { GET_LOCAL_VIDEO_STREAM_SUCCESS, RECEIVED_STREAM } from '../actions';
 
 export const initialState = {
-  entities: [],
+  ids: [],
 };
 
 export function peers(state = initialState, action) {
@@ -9,12 +9,12 @@ export function peers(state = initialState, action) {
     case RECEIVED_STREAM:
       return {
         ...state,
-        entities: [...state.entities, action.payload],
+        ids: [...state.ids, action.payload.id],
       };
     case GET_LOCAL_VIDEO_STREAM_SUCCESS:
       return {
         ...state,
-        entities: [action.payload, ...state.entities],
+        ids: [action.payload.id, ...state.ids],
       };
     default:
       return state;

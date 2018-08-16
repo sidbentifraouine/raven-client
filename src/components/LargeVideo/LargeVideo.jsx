@@ -1,16 +1,32 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react'; // Note: we use `Component` here just to re-render
 import PropTypes from 'prop-types';
 import theme from './theme.css';
 
-class LargeVideo extends PureComponent {
+import StreamStore from '../../services/StreamStore';
+
+class LargeVideo extends Component {
   static propTypes = {
-    stream: PropTypes.string.isRequired,
+    streamId: PropTypes.string,
+  };
+
+  static defaultProps = {
+    streamId: 'me',
+  };
+
+  attachStream = (node) => {
+    if (node) {
+      const stream = StreamStore.get(this.props.streamId);
+      node.srcObject = stream; // eslint-disable-line
+    }
   };
 
   render() {
     return (
       <div className={theme.largeVideo}>
-        <video autoPlay src={this.props.stream} />
+        <video
+          autoPlay
+          ref={(c) => { this.attachStream(c); }}
+        />
       </div>
     );
   }

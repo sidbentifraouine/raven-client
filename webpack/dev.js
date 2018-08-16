@@ -3,6 +3,7 @@ const { resolve, join } = require('path');
 const { config, rules, plugins } = require('./base');
 
 const webpackConfig = Object.assign({}, config, {
+  mode: 'development',
   devtool: 'source-map',
   output: {
     filename: '[name].js',

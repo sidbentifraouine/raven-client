@@ -1,10 +1,10 @@
 import { connect } from 'react-redux';
-import { JOIN_ROOM } from '../actions';
-import Conference from '../components/Conference';
+import { JOIN_ROOM } from '../../actions';
+// import Conference from '../../components/Conference';
+import Conference from './Conference';
 
 const mapStateToProps = state => ({
-  peers: state.peers.entities,
-  localStream: state.peers.localStream,
+  peers: state.peers.ids,
 });
 
 const mapDispatchToProps = dispatch => ({

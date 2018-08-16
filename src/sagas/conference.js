@@ -3,6 +3,7 @@ import { eventChannel } from 'redux-saga';
 import { all, call, put, fork, take, takeEvery } from 'redux-saga/effects';
 import { JOIN_ROOM, RECEIVED_STREAM, GET_LOCAL_VIDEO_STREAM_SUCCESS } from '../actions';
 import getVideoStream from '../services/videoStream';
+import StreamStore from '../services/StreamStore';
 
 function* watchMessageEventChannel(localStream, roomId) {
   const channel = eventChannel((emitter) => {
@@ -14,11 +15,14 @@ function* watchMessageEventChannel(localStream, roomId) {
       room: roomId,
       callbacks: {
         connect: () => {},
-        close: () => {},
+        close: (id) => {
+          global.console.log('Connection closed: ', id);
+        },
         data: (data) => { global.console.log(data); },
         stream: (id, stream) => {
-          global.console.log(id, stream);
-          emitter(URL.createObjectURL(stream));
+          global.console.log('onStream: ', id, stream);
+          StreamStore.save(id, stream);
+          emitter({ type: RECEIVED_STREAM, payload: { id } });
         },
       },
       peerOptions: {
@@ -30,14 +34,15 @@ function* watchMessageEventChannel(localStream, roomId) {
   });
 
   while (true) {
-    const stream = yield take(channel);
-    yield put({ type: RECEIVED_STREAM, payload: stream });
+    const message = yield take(channel);
+    yield put(message);
   }
 }
 
 function* joinRoom(action) {
   const localStream = yield call(getVideoStream);
-  yield put({ type: GET_LOCAL_VIDEO_STREAM_SUCCESS, payload: URL.createObjectURL(localStream) });
+  yield call(StreamStore.save, 'me', localStream);
+  yield put({ type: GET_LOCAL_VIDEO_STREAM_SUCCESS, payload: { id: 'me' } });
   yield fork(watchMessageEventChannel, localStream, action.payload.roomId);
 }
 

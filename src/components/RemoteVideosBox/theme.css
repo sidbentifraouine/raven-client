@@ -1,5 +1,14 @@
 .remoteVideosBox {
-  & video {
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 20px;
+  top: 20px;
 
+   & video {
+    object-fit: cover;
+    transform: scaleX(-1);
+    width: 120px;
+    margin-bottom: 15px;
   }
 }
