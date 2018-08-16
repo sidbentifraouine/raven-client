@@ -1,7 +1,12 @@
 import SimpleMultiPeer from '@ok2ju/simple-multi-peer';
 import { eventChannel } from 'redux-saga';
 import { all, call, put, fork, take, takeEvery } from 'redux-saga/effects';
-import { JOIN_ROOM, RECEIVED_STREAM, GET_LOCAL_VIDEO_STREAM_SUCCESS } from '../actions';
+import {
+  JOIN_ROOM,
+  RECEIVED_STREAM,
+  GET_LOCAL_VIDEO_STREAM_SUCCESS,
+  PEER_DISCONNECTED,
+} from '../actions';
 import getVideoStream from '../services/videoStream';
 import StreamStore from '../services/StreamStore';
 
@@ -14,13 +19,17 @@ function* watchMessageEventChannel(localStream, roomId) {
       },
       room: roomId,
       callbacks: {
-        connect: () => {},
-        close: (id) => {
-          global.console.log('Connection closed: ', id);
+        connect: (id) => {
+          global.console.log('Peer connected: ', id);
         },
-        data: (data) => { global.console.log(data); },
+        close: (id) => {
+          StreamStore.remove(id);
+          emitter({ type: PEER_DISCONNECTED, payload: { id } });
+        },
+        data: (data) => {
+          global.console.log(data);
+        },
         stream: (id, stream) => {
-          global.console.log('onStream: ', id, stream);
           StreamStore.save(id, stream);
           emitter({ type: RECEIVED_STREAM, payload: { id } });
         },
