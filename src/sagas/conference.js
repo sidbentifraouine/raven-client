@@ -6,9 +6,12 @@ import {
   RECEIVED_STREAM,
   GET_LOCAL_VIDEO_STREAM_SUCCESS,
   PEER_DISCONNECTED,
+  TOGGLE_CAMERA,
+  TOGGLE_MICROPHONE,
 } from '../actions';
 import getVideoStream from '../services/videoStream';
 import StreamStore from '../services/StreamStore';
+import myPeerId from '../constants';
 
 function* watchMessageEventChannel(localStream, roomId) {
   const channel = eventChannel((emitter) => {
@@ -50,13 +53,29 @@ function* watchMessageEventChannel(localStream, roomId) {
 
 function* joinRoom(action) {
   const localStream = yield call(getVideoStream);
-  yield call(StreamStore.save, 'me', localStream);
-  yield put({ type: GET_LOCAL_VIDEO_STREAM_SUCCESS, payload: { id: 'me' } });
+  yield call(StreamStore.save, myPeerId, localStream);
+  yield put({ type: GET_LOCAL_VIDEO_STREAM_SUCCESS, payload: { id: myPeerId } });
   yield fork(watchMessageEventChannel, localStream, action.payload.roomId);
+}
+
+function toggleCamera() {
+  const videoStreamTracks = StreamStore.get(myPeerId).getVideoTracks();
+  videoStreamTracks.forEach((track) => {
+    track.enabled = !track.enabled; // eslint-disable-line
+  });
+}
+
+function toggleMicrophone() {
+  const audioStreamTracks = StreamStore.get(myPeerId).getAudioTracks();
+  audioStreamTracks.forEach((track) => {
+    track.enabled = !track.enabled; // eslint-disable-line
+  });
 }
 
 export default function () {
   return all([
     takeEvery(JOIN_ROOM, joinRoom),
+    takeEvery(TOGGLE_CAMERA, toggleCamera),
+    takeEvery(TOGGLE_MICROPHONE, toggleMicrophone),
   ]);
 }

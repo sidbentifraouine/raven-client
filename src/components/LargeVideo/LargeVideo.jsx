@@ -1,5 +1,6 @@
 import React, { Component } from 'react'; // Note: we use `Component` here just to re-render
 import PropTypes from 'prop-types';
+import myPeerId from '../../constants';
 import theme from './theme.css';
 
 import StreamStore from '../../services/StreamStore';
@@ -10,7 +11,7 @@ class LargeVideo extends Component {
   };
 
   static defaultProps = {
-    streamId: 'me',
+    streamId: myPeerId,
   };
 
   attachStream = (node) => {
