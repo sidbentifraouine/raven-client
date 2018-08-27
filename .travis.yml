@@ -9,6 +9,7 @@ services:
   - docker
 
 script:
+  - yarn build
   - docker login -u "$DOCKER_USERNAME" -p "$DOCKER_PASSWORD"
   - make image-build image-publish IMAGE_VERSION=$TRAVIS_BRANCH
 

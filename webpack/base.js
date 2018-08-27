@@ -5,6 +5,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const dir = {
   source: resolve(__dirname, '..', 'src'),
   modules: resolve(__dirname, '..', 'node_modules'),
+  build: resolve(__dirname, '..', 'build'),
 };
 
 const config = {
@@ -46,6 +47,7 @@ const rules = [{
 }];
 
 const plugins = [
+  new webpack.NamedModulesPlugin(),
   new HtmlWebpackPlugin({
     filename: 'index.html',
     template: 'src/index.ejs',
@@ -56,7 +58,6 @@ const plugins = [
     SIGNALING_URL: JSON.stringify(process.env.SIGNALING_URL),
     SIGNALING_PATH: JSON.stringify(process.env.SIGNALING_PATH),
   }),
-  new webpack.NamedModulesPlugin(),
 ];
 
 module.exports = {
