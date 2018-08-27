@@ -1,22 +1,16 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import theme from './theme.css';
 
-import StreamStore from '../../services/StreamStore';
+import Video from '../Video';
 
-class RemoteVideosBox extends PureComponent {
+class RemoteVideosBox extends Component {
   static propTypes = {
     streamIds: PropTypes.array,
   };
 
   static defaultProps = {
     streamIds: [],
-  };
-
-  attachStream = (id, node) => {
-    if (node) {
-      node.srcObject = StreamStore.get(id); // eslint-disable-line
-    }
   };
 
   render() {
@@ -27,12 +21,8 @@ class RemoteVideosBox extends PureComponent {
       <div className={theme.remoteVideosBox}>
         {streamIds
           .filter(id => id !== 'me')
-          .map((id, index) => (
-            <video
-              autoPlay
-              key={index}
-              ref={(c) => { this.attachStream(id, c); }}
-            />
+          .map(id => (
+            <Video id={id} />
           ))}
       </div>
     );

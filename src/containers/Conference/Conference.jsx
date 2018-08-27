@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
-import LargeVideo from '../../components/LargeVideo';
+import Video from '../../components/Video';
 import RemoteVideosBox from '../../components/RemoteVideosBox';
 import theme from './theme.css';
 
@@ -70,7 +70,7 @@ class Conference extends PureComponent {
         className={theme.conference}
         onMouseMove={this.handleMouseMove}
       >
-        <LargeVideo streamId="me" />
+        <Video id="me" className={theme.largeVideo} />
         <RemoteVideosBox streamIds={peers} />
         <ToolBar isVisible={isControlsVisible} />
         <ActionsBar isVisible={isControlsVisible} />
