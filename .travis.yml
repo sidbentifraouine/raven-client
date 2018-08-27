@@ -5,6 +5,10 @@ node_js:
 before_install:
   - yarn
 
+before_script:
+  - yarn lint
+  - yarn test
+
 services:
   - docker
 

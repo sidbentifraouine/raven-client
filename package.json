@@ -6,7 +6,9 @@
   "scripts": {
     "prebuild": "rimraf ./build",
     "build": "cross-env URI_PREFIX=/raven SIGNALING_URL=https://172.29.200.9 SIGNALING_PATH=/signaling/ webpack --env=prod",
-    "start": "cross-env SIGNALING_URL=ws://localhost:3334 webpack-dev-server --env=dev"
+    "start": "cross-env SIGNALING_URL=ws://localhost:3334 webpack-dev-server --env=dev",
+    "lint": "./node_modules/.bin/eslint src --ext .js --ext .jsx -f table",
+    "test": "echo 'no test available now'"
   },
   "keywords": [
     "p2p",
