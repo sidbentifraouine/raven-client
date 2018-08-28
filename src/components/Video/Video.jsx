@@ -19,18 +19,20 @@ class Video extends PureComponent {
   }
 
   componentWillReceiveProps(nextProps) {
-    this.setState({ peers: nextProps.streamIds }, () => {
-      this.state.peers.forEach((peerId) => {
-        const speech = hark(StreamStore.get(peerId), {});
-        speech.on('speaking', () => {
-          global.console.log('Speaking!', peerId);
-          this.props.setActivePeer(this.props.pinnedPeer || peerId);
-        });
-        speech.on('stopped_speaking', () => {
-          global.console.log('stopped_speaking!', peerId);
+    if (this.props.className) {
+      this.setState({ peers: nextProps.streamIds }, () => {
+        this.state.peers.forEach((peerId) => {
+          const speech = hark(StreamStore.get(peerId), {});
+          speech.on('speaking', () => {
+            global.console.log('Speaking!', peerId);
+            this.props.setActivePeer(this.props.pinnedPeer || peerId);
+          });
+          speech.on('stopped_speaking', () => {
+            global.console.log('stopped_speaking!', peerId);
+          });
         });
       });
-    });
+    }
   }
 
   attachStream = (id, node) => {
