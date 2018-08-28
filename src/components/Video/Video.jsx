@@ -48,7 +48,6 @@ class Video extends PureComponent {
     }
   }
 
-
   render() {
     const { id, className } = this.props;
 
