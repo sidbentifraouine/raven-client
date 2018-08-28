@@ -29,7 +29,6 @@ class RemoteVideosBox extends Component {
     return (
       <div className={theme.remoteVideosBox}>
         {streamIds
-          .filter(id => id !== 'me')
           .map(id => (
             <Video
               id={id}
