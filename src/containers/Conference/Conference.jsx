@@ -84,8 +84,20 @@ class Conference extends PureComponent {
         className={theme.conference}
         onMouseMove={this.handleMouseMove}
       >
-        <Video id="me" className={theme.largeVideo} />
-        <RemoteVideosBox streamIds={peers} />
+        <Video
+          id={activePeer}
+          streamIds={peers}
+          setActivePeer={setActivePeer}
+          setPinnedPeer={setPinnedPeer}
+          pinnedPeer={pinnedPeer}
+          className={theme.largeVideo}
+        />
+        <RemoteVideosBox
+          streamIds={peers}
+          setActivePeer={setActivePeer}
+          setPinnedPeer={setPinnedPeer}
+          pinnedPeer={pinnedPeer}
+        />
         <ToolBar isVisible={isControlsVisible} />
         <ActionsBar isVisible={isControlsVisible} />
       </div>

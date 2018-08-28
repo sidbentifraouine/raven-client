@@ -18,7 +18,12 @@ class RemoteVideosBox extends Component {
   };
 
   render() {
-    const { streamIds } = this.props;
+    const {
+      streamIds,
+      setActivePeer,
+      setPinnedPeer,
+      pinnedPeer,
+    } = this.props;
     global.console.log('Remote videos [render]: ', streamIds);
 
     return (
@@ -26,7 +31,14 @@ class RemoteVideosBox extends Component {
         {streamIds
           .filter(id => id !== 'me')
           .map(id => (
-            <Video id={id} />
+            <Video
+              id={id}
+              key={id}
+              streamIds={streamIds}
+              setActivePeer={setActivePeer}
+              pinnedPeer={pinnedPeer}
+              setPinnedPeer={setPinnedPeer}
+            />
           ))}
       </div>
     );
