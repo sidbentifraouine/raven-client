@@ -7,10 +7,14 @@ import Video from '../Video';
 class RemoteVideosBox extends Component {
   static propTypes = {
     streamIds: PropTypes.array,
+    setActivePeer: PropTypes.func.isRequired,
+    setPinnedPeer: PropTypes.func.isRequired,
+    pinnedPeer: PropTypes.string,
   };
 
   static defaultProps = {
     streamIds: [],
+    pinnedPeer: null,
   };
 
   render() {

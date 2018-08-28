@@ -14,9 +14,17 @@ const HIDE_CONTROLS_TIMEOUT = 2000;
 class Conference extends PureComponent {
   static propTypes = {
     peers: PropTypes.array.isRequired,
+    activePeer: PropTypes.string.isRequired,
+    setActivePeer: PropTypes.func.isRequired,
+    setPinnedPeer: PropTypes.func.isRequired,
     joinRoom: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired,
+    pinnedPeer: PropTypes.string,
   };
+
+  static defaultProps = {
+    pinnedPeer: null,
+  }
 
   state = {
     isControlsVisible: false,
@@ -62,7 +70,13 @@ class Conference extends PureComponent {
   };
 
   render() {
-    const { peers } = this.props;
+    const {
+      peers,
+      activePeer,
+      setActivePeer,
+      pinnedPeer,
+      setPinnedPeer,
+    } = this.props;
     const { isControlsVisible } = this.state;
 
     return (
