@@ -12,9 +12,9 @@ import theme from './theme.css';
 class ActionsBar extends PureComponent {
   static propTypes = {
     isVisible: PropTypes.bool,
-    isMicrophoneEnabled: PropTypes.bool.isRequired,
-    isCameraEnabled: PropTypes.bool.isRequired,
-    isScreenSharingEnabled: PropTypes.bool.isRequired,
+    isMicrophoneEnabled: PropTypes.bool,
+    isCameraEnabled: PropTypes.bool,
+    isScreenSharingEnabled: PropTypes.bool,
     toggleMicrophone: PropTypes.func.isRequired,
     toggleCamera: PropTypes.func.isRequired,
     toggleScreenSharing: PropTypes.func.isRequired,
@@ -23,6 +23,9 @@ class ActionsBar extends PureComponent {
 
   static defaultProps = {
     isVisible: false,
+    isMicrophoneEnabled: false,
+    isCameraEnabled: false,
+    isScreenSharingEnabled: false,
   };
 
   render() {
