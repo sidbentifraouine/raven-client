@@ -1,23 +1,23 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import theme from './theme.css';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import theme from './theme.css'
 
 class TextField extends PureComponent {
   static propTypes = {
     value: PropTypes.string.isRequired,
     placeholder: PropTypes.string,
-    onChange: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    placeholder: 'Type something',
+    placeholder: 'Type something'
   };
 
   handleChange = (event) => {
-    this.props.onChange(event.target.value);
+    this.props.onChange(event.target.value)
   };
 
-  render() {
+  render () {
     return (
       <div className={theme.textField}>
         <input
@@ -27,8 +27,8 @@ class TextField extends PureComponent {
           placeholder={this.props.placeholder}
         />
       </div>
-    );
+    )
   }
 }
 
-export default TextField;
+export default TextField

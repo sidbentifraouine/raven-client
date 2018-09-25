@@ -1,6 +1,6 @@
-const webpack = require('webpack');
-const { resolve, join } = require('path');
-const { config, rules, plugins } = require('./base');
+const webpack = require('webpack')
+const { resolve, join } = require('path')
+const { config, rules, plugins } = require('./base')
 
 const webpackConfig = Object.assign({}, config, {
   mode: 'development',
@@ -8,7 +8,7 @@ const webpackConfig = Object.assign({}, config, {
   output: {
     filename: '[name].js',
     path: resolve(__dirname, 'devel'),
-    publicPath: 'http://localhost:3333/',
+    publicPath: 'http://localhost:3333/'
   },
   module: {
     rules: [
@@ -16,15 +16,15 @@ const webpackConfig = Object.assign({}, config, {
       {
         test: /\.css$/,
         include: [
-          join(__dirname, '../src'),
+          join(__dirname, '../../src')
         ],
         use: [
           'style-loader',
           'css-loader?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]',
-          'postcss-loader',
-        ],
-      },
-    ],
+          'postcss-loader'
+        ]
+      }
+    ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -33,15 +33,15 @@ const webpackConfig = Object.assign({}, config, {
         'NODE_ENV': JSON.stringify('development')
       }
     }),
-    ...plugins,
+    ...plugins
   ],
   devServer: {
     contentBase: './devel',
     historyApiFallback: true,
     port: 3333,
     inline: true,
-    hot: true,
-  },
-});
+    hot: true
+  }
+})
 
-module.exports = webpackConfig;
+module.exports = webpackConfig

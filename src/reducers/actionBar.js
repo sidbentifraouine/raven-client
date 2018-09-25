@@ -1,33 +1,33 @@
 import {
   TOGGLE_MICROPHONE,
   TOGGLE_CAMERA,
-  TOGGLE_SCREEN_SHARING,
-} from '../actions';
+  TOGGLE_SCREEN_SHARING
+} from '../actions'
 
 export const initialState = {
   isMicrophoneEnabled: true,
   isCameraEnabled: true,
-  isScreenSharingEnabled: false,
-};
+  isScreenSharingEnabled: false
+}
 
-export function actionsBar(state = initialState, action) {
+export function actionsBar (state = initialState, action) {
   switch (action.type) {
     case TOGGLE_MICROPHONE:
       return {
         ...state,
-        isMicrophoneEnabled: !state.isMicrophoneEnabled,
-      };
+        isMicrophoneEnabled: !state.isMicrophoneEnabled
+      }
     case TOGGLE_CAMERA:
       return {
         ...state,
-        isCameraEnabled: !state.isCameraEnabled,
-      };
+        isCameraEnabled: !state.isCameraEnabled
+      }
     case TOGGLE_SCREEN_SHARING:
       return {
         ...state,
-        isScreenSharingEnabled: !state.isScreenSharingEnabled,
-      };
+        isScreenSharingEnabled: !state.isScreenSharingEnabled
+      }
     default:
-      return state;
+      return state
   }
 }

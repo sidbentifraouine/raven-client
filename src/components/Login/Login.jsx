@@ -1,38 +1,38 @@
-import React, { PureComponent } from 'react';
-import TextField from '../TextField';
-import Button from '../Button';
-import history from '../../services/history';
-import theme from './theme.css';
+import React, { PureComponent } from 'react'
+import TextField from '../TextField'
+import Button from '../Button'
+import history from '../../services/history'
+import theme from './theme.css'
 
 class Login extends PureComponent {
   state = {
-    room: '',
+    room: ''
   };
 
   handleChange = (value) => {
-    this.setState({ room: value });
+    this.setState({ room: value })
   };
 
   handleEnterClick = () => {
-    history.push(`/${this.state.room}`);
+    history.push(`/${this.state.room}`)
   };
 
-  render() {
+  render () {
     return (
       <div className={theme.login}>
         <TextField
           value={this.state.room}
-          placeholder="Please enter room id"
+          placeholder='Please enter room id'
           onChange={this.handleChange}
         />
         <Button
-          title="Enter"
+          title='Enter'
           onClick={this.handleEnterClick}
           disabled={!this.state.room}
         />
       </div>
-    );
+    )
   }
 }
 
-export default Login;
+export default Login

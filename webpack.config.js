@@ -1,5 +1,5 @@
-function buildConfig(env) {
-  return require('./webpack/' + env + '.js'); // eslint-disable-line
+function buildConfig (env) {
+  return require('./config/webpack/' + env + '.js') // eslint-disable-line
 }
 
-module.exports = buildConfig;
+module.exports = buildConfig

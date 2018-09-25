@@ -1,21 +1,21 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import theme from './theme.css';
+import React, { Component } from 'react'
+import PropTypes from 'prop-types'
+import theme from './theme.css'
 
-import Video from '../Video';
+import Video from '../Video'
 
 class RemoteVideosBox extends Component {
   static propTypes = {
-    streamIds: PropTypes.array,
+    streamIds: PropTypes.array
   };
 
   static defaultProps = {
-    streamIds: [],
+    streamIds: []
   };
 
-  render() {
-    const { streamIds } = this.props;
-    global.console.log('Remote videos [render]: ', streamIds);
+  render () {
+    const { streamIds } = this.props
+    global.console.log('Remote videos [render]: ', streamIds)
 
     return (
       <div className={theme.remoteVideosBox}>
@@ -25,8 +25,8 @@ class RemoteVideosBox extends Component {
             <Video id={id} />
           ))}
       </div>
-    );
+    )
   }
 }
 
-export default RemoteVideosBox;
+export default RemoteVideosBox

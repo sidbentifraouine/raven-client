@@ -1,3 +1,3 @@
-const myPeerId = 'myPeerId';
+const myPeerId = 'myPeerId'
 
-export default myPeerId;
+export default myPeerId

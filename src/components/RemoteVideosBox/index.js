@@ -1,1 +1,1 @@
-export { default } from './RemoteVideosBox';
+export { default } from './RemoteVideosBox'

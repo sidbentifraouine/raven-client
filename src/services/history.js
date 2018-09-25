@@ -1,7 +1,7 @@
-import { useRouterHistory } from 'react-router';
+import { useRouterHistory } from 'react-router'
 /* eslint-disable import/no-extraneous-dependencies */
-import { createHistory } from 'history'; // dep of react-router
+import { createHistory } from 'history' // dep of react-router
 
 export default useRouterHistory(createHistory)({
-  basename: URI_PREFIX || '',
-});
+  basename: URI_PREFIX || ''
+})

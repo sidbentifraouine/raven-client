@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import cx from 'classnames';
-import Chat from '../Icons/Chat';
-import Code from '../Icons/Code';
-import Settings from '../Icons/Settings';
-import theme from './theme.css';
+import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
+import cx from 'classnames'
+import Chat from '../Icons/Chat'
+import Code from '../Icons/Code'
+import Settings from '../Icons/Settings'
+import theme from './theme.css'
 
 class ToolBar extends PureComponent {
   static propTypes = {
@@ -14,14 +14,14 @@ class ToolBar extends PureComponent {
     isVisible: PropTypes.bool,
     toggleChat: PropTypes.func.isRequired,
     toggleCodeEditor: PropTypes.func.isRequired,
-    openSettings: PropTypes.func.isRequired,
+    openSettings: PropTypes.func.isRequired
   };
 
   static defaultProps = {
-    isVisible: false,
+    isVisible: false
   };
 
-  render() {
+  render () {
     const {
       isVisible,
       toggleChat,
@@ -29,20 +29,20 @@ class ToolBar extends PureComponent {
       toggleCodeEditor,
       isCodeEditorOpen,
       openSettings,
-      isSettingsOpen,
-    } = this.props;
+      isSettingsOpen
+    } = this.props
 
     return (
       <div
         className={cx(theme.toolbar, {
-          [theme.visible]: isVisible,
+          [theme.visible]: isVisible
         })}
       >
         <ul className={theme.items}>
           <li
             onClick={toggleChat}
             className={cx(theme.item, {
-              [theme.active]: isChatOpen,
+              [theme.active]: isChatOpen
             })}
           >
             <Chat />
@@ -50,7 +50,7 @@ class ToolBar extends PureComponent {
           <li
             onClick={toggleCodeEditor}
             className={cx(theme.item, {
-              [theme.active]: isCodeEditorOpen,
+              [theme.active]: isCodeEditorOpen
             })}
           >
             <Code />
@@ -58,15 +58,15 @@ class ToolBar extends PureComponent {
           <li
             onClick={openSettings}
             className={cx(theme.item, {
-              [theme.active]: isSettingsOpen,
+              [theme.active]: isSettingsOpen
             })}
           >
             <Settings />
           </li>
         </ul>
       </div>
-    );
+    )
   }
 }
 
-export default ToolBar;
+export default ToolBar
