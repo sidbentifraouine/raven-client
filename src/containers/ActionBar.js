@@ -1,22 +1,23 @@
 import { connect } from 'react-redux'
 import ActionsBar from '../components/ActionBar'
 import {
-  TOGGLE_MICROPHONE,
-  TOGGLE_CAMERA,
-  TOGGLE_SCREEN_SHARING,
+  MUTE_PENDING,
+  UNMUTE_PENDING,
+  PAUSE_VIDEO_PENDING,
+  RESUME_VIDEO_PENDING,
   END_CALL
 } from '../actions'
 
 const mapStateToProps = state => ({
   isMicrophoneEnabled: state.actionsBar.isMicrophoneEnabled,
-  isCameraEnabled: state.actionsBar.isCameraEnabled,
-  isScreenSharingEnabled: state.actionsBar.isScreenSharingEnabled
+  isCameraEnabled: state.actionsBar.isCameraEnabled
 })
 
 const mapDispatchToProps = dispatch => ({
-  toggleMicrophone: () => dispatch({ type: TOGGLE_MICROPHONE }),
-  toggleCamera: () => dispatch({ type: TOGGLE_CAMERA }),
-  toggleScreenSharing: () => dispatch({ type: TOGGLE_SCREEN_SHARING }),
+  muteMicrophone: () => dispatch({ type: MUTE_PENDING }),
+  unmuteMicrophone: () => dispatch({ type: UNMUTE_PENDING }),
+  pauseVideo: () => dispatch({ type: PAUSE_VIDEO_PENDING }),
+  resumeVideo: () => dispatch({ type: RESUME_VIDEO_PENDING }),
   endCall: () => dispatch({ type: END_CALL })
 })
 

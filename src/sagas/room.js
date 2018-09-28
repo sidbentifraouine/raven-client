@@ -1,19 +1,24 @@
 import SimpleMultiPeer from '@ok2ju/simple-multi-peer'
 import { eventChannel } from 'redux-saga'
-import { all, call, put, fork, take, takeEvery } from 'redux-saga/effects'
+import { all, call, put, fork, take, takeLatest } from 'redux-saga/effects'
 import {
-  JOIN_ROOM,
+  JOIN_ROOM_PENDING,
+  JOIN_ROOM_SUCCESS,
+  JOIN_ROOM_ERROR,
+
+  LEAVE_ROOM_PENDING,
+  LEAVE_ROOM_SUCCESS,
+  LEAVE_ROOM_ERROR,
+
   RECEIVED_STREAM,
-  GET_LOCAL_VIDEO_STREAM_SUCCESS,
-  PEER_DISCONNECTED,
-  TOGGLE_CAMERA,
-  TOGGLE_MICROPHONE
+  PEER_CONNECTED,
+  PEER_DISCONNECTED
 } from '../actions'
-import getVideoStream from '../services/videoStream'
+import getLocalStream from '../services/localStream'
 import StreamStore from '../services/StreamStore'
 import myPeerId from '../constants'
 
-function * watchMessageEventChannel (localStream, roomId) {
+function * initWebRTC (localStream, roomId) {
   const channel = eventChannel((emitter) => {
     const Peers = new SimpleMultiPeer({ // eslint-disable-line
       server: SIGNALING_URL,
@@ -24,6 +29,7 @@ function * watchMessageEventChannel (localStream, roomId) {
       callbacks: {
         connect: (id) => {
           global.console.log('Peer connected: ', id)
+          emitter({ type: PEER_CONNECTED, payload: { id } })
         },
         close: (id) => {
           StreamStore.remove(id)
@@ -52,30 +58,29 @@ function * watchMessageEventChannel (localStream, roomId) {
 }
 
 function * joinRoom (action) {
-  const localStream = yield call(getVideoStream)
-  yield call(StreamStore.save, myPeerId, localStream)
-  yield put({ type: GET_LOCAL_VIDEO_STREAM_SUCCESS, payload: { id: myPeerId } })
-  yield fork(watchMessageEventChannel, localStream, action.payload.roomId)
+  try {
+    const localStream = yield call(getLocalStream)
+    yield call(StreamStore.save, myPeerId, localStream)
+    yield put({ type: RECEIVED_STREAM, payload: { id: myPeerId } })
+    // yield put({ type: START_VOLUME_METER_PENDING, payload: { id: myPeerId } })
+    yield fork(initWebRTC, localStream, action.payload.roomId)
+    yield put({ type: JOIN_ROOM_SUCCESS })
+  } catch (error) {
+    yield put({ type: JOIN_ROOM_ERROR, payload: { error: error.message } })
+  }
 }
 
-function toggleCamera () {
-  const videoStreamTracks = StreamStore.get(myPeerId).getVideoTracks()
-  videoStreamTracks.forEach((track) => {
-    track.enabled = !track.enabled // eslint-disable-line
-  })
-}
-
-function toggleMicrophone () {
-  const audioStreamTracks = StreamStore.get(myPeerId).getAudioTracks()
-  audioStreamTracks.forEach((track) => {
-    track.enabled = !track.enabled // eslint-disable-line
-  })
+function * leaveRoom () {
+  try {
+    yield put({ type: LEAVE_ROOM_SUCCESS })
+  } catch (error) {
+    yield put({ type: LEAVE_ROOM_ERROR })
+  }
 }
 
 export default function () {
   return all([
-    takeEvery(JOIN_ROOM, joinRoom),
-    takeEvery(TOGGLE_CAMERA, toggleCamera),
-    takeEvery(TOGGLE_MICROPHONE, toggleMicrophone)
+    takeLatest(JOIN_ROOM_PENDING, joinRoom),
+    takeLatest(LEAVE_ROOM_PENDING, leaveRoom)
   ])
 }

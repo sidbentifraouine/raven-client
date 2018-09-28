@@ -1,5 +1,4 @@
 import {
-  GET_LOCAL_VIDEO_STREAM_SUCCESS,
   RECEIVED_STREAM,
   PEER_DISCONNECTED
 } from '../actions'
@@ -14,11 +13,6 @@ export function peers (state = initialState, action) {
       return {
         ...state,
         ids: [...state.ids, action.payload.id]
-      }
-    case GET_LOCAL_VIDEO_STREAM_SUCCESS:
-      return {
-        ...state,
-        ids: [action.payload.id, ...state.ids]
       }
     case PEER_DISCONNECTED:
       return {

@@ -5,7 +5,6 @@ import Mic from '../Icons/Mic'
 import MicOff from '../Icons/MicOff'
 import Video from '../Icons/Video'
 import VideoOff from '../Icons/VideoOff'
-import ShareScreen from '../Icons/ShareScreen'
 import CallEnd from '../Icons/CallEnd'
 import theme from './theme.css'
 
@@ -14,29 +13,28 @@ class ActionsBar extends PureComponent {
     isVisible: PropTypes.bool,
     isMicrophoneEnabled: PropTypes.bool,
     isCameraEnabled: PropTypes.bool,
-    isScreenSharingEnabled: PropTypes.bool,
-    toggleMicrophone: PropTypes.func.isRequired,
-    toggleCamera: PropTypes.func.isRequired,
-    toggleScreenSharing: PropTypes.func.isRequired,
+    muteMicrophone: PropTypes.func.isRequired,
+    unmuteMicrophone: PropTypes.func.isRequired,
+    pauseVideo: PropTypes.func.isRequired,
+    resumeVideo: PropTypes.func.isRequired,
     endCall: PropTypes.func.isRequired
   };
 
   static defaultProps = {
     isVisible: false,
     isMicrophoneEnabled: false,
-    isCameraEnabled: false,
-    isScreenSharingEnabled: false
+    isCameraEnabled: false
   };
 
   render () {
     const {
       isVisible,
-      toggleMicrophone,
       isMicrophoneEnabled,
-      toggleCamera,
       isCameraEnabled,
-      toggleScreenSharing,
-      isScreenSharingEnabled,
+      muteMicrophone,
+      unmuteMicrophone,
+      pauseVideo,
+      resumeVideo,
       endCall
     } = this.props
 
@@ -48,7 +46,7 @@ class ActionsBar extends PureComponent {
       >
         <ul className={theme.items}>
           <li
-            onClick={toggleMicrophone}
+            onClick={isMicrophoneEnabled ? muteMicrophone : unmuteMicrophone}
             className={cx(theme.item, {
               [theme.active]: !isMicrophoneEnabled
             })}
@@ -56,20 +54,12 @@ class ActionsBar extends PureComponent {
             {isMicrophoneEnabled ? <Mic /> : <MicOff />}
           </li>
           <li
-            onClick={toggleCamera}
+            onClick={isCameraEnabled ? pauseVideo : resumeVideo}
             className={cx(theme.item, {
               [theme.active]: !isCameraEnabled
             })}
           >
             {isCameraEnabled ? <Video /> : <VideoOff />}
-          </li>
-          <li
-            onClick={toggleScreenSharing}
-            className={cx(theme.item, {
-              [theme.active]: isScreenSharingEnabled
-            })}
-          >
-            <ShareScreen />
           </li>
           <li
             onClick={endCall}

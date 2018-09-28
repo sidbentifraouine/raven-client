@@ -5,7 +5,6 @@ import RemoteVideosBox from '../../components/RemoteVideosBox'
 import theme from './theme.css'
 
 import ActionsBar from '../ActionBar'
-import ToolBar from '../ToolBar'
 
 const TOOLBAR_REVEAL_DISTANCE = 100
 const ACTIONSBAR_REVEAL_DISTANCE = 150
@@ -72,7 +71,6 @@ class Conference extends PureComponent {
       >
         <Video id='me' className={theme.largeVideo} />
         <RemoteVideosBox streamIds={peers} />
-        <ToolBar isVisible={isControlsVisible} />
         <ActionsBar isVisible={isControlsVisible} />
       </div>
     )
