@@ -13,7 +13,16 @@ const HIDE_CONTROLS_TIMEOUT = 2000
 class Conference extends PureComponent {
   static propTypes = {
     peers: PropTypes.array.isRequired,
+    activeSpeaker: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
+    pinnedSpeaker: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ]),
     joinRoom: PropTypes.func.isRequired,
+    setPinnedSpeaker: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired
   };
 
@@ -61,7 +70,7 @@ class Conference extends PureComponent {
   };
 
   render () {
-    const { peers } = this.props
+    const { peers, activeSpeaker, setPinnedSpeaker, pinnedSpeaker } = this.props
     const { isControlsVisible } = this.state
 
     return (
@@ -69,9 +78,18 @@ class Conference extends PureComponent {
         className={theme.conference}
         onMouseMove={this.handleMouseMove}
       >
-        <Video id='me' className={theme.largeVideo} />
-        <RemoteVideosBox streamIds={peers} />
-        <ActionsBar isVisible={isControlsVisible} />
+        <Video
+          id={!pinnedSpeaker && activeSpeaker}
+          className={theme.largeVideo}
+        />
+        <RemoteVideosBox
+          streamIds={peers}
+          pinnedSpeaker={pinnedSpeaker}
+          setPinnedSpeaker={setPinnedSpeaker}
+        />
+        <ActionsBar
+          isVisible={isControlsVisible}
+        />
       </div>
     )
   }

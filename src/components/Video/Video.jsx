@@ -6,11 +6,17 @@ import StreamStore from '../../services/StreamStore'
 class Video extends PureComponent {
   static propTypes = {
     id: PropTypes.string.isRequired,
-    className: PropTypes.string
+    className: PropTypes.string,
+    setPinnedSpeaker: PropTypes.func,
+    pinnedSpeaker: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ])
   }
 
   static defaultProps = {
-    className: null
+    className: null,
+    setPinnedSpeaker: () => {}
   }
 
   attachStream = (id, node) => {
@@ -19,15 +25,30 @@ class Video extends PureComponent {
     }
   };
 
+  handleSetPinnedSpeaker = id => () => {
+    if (this.isSpeakerAlreadyPinned()) {
+      this.props.setPinnedSpeaker(null)
+    } else {
+      this.props.setPinnedSpeaker(id)
+    }
+  }
+
+  isSpeakerAlreadyPinned = () => (
+    this.props.id === this.props.pinnedSpeaker
+  )
+
   render () {
     const { id, className } = this.props
 
     return (
-      <div className={className}>
+      <div
+        className={className}
+      >
         <video
           autoPlay
           key={id}
           ref={(c) => { this.attachStream(id, c) }}
+          onClick={this.handleSetPinnedSpeaker(id)}
         />
       </div>
     )

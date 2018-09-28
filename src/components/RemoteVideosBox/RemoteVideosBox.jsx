@@ -6,7 +6,12 @@ import Video from '../Video'
 
 class RemoteVideosBox extends Component {
   static propTypes = {
-    streamIds: PropTypes.array
+    streamIds: PropTypes.array,
+    setPinnedSpeaker: PropTypes.func.isRequired,
+    pinnedSpeaker: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.object
+    ])
   };
 
   static defaultProps = {
@@ -14,7 +19,7 @@ class RemoteVideosBox extends Component {
   };
 
   render () {
-    const { streamIds } = this.props
+    const { streamIds, setPinnedSpeaker, pinnedSpeaker } = this.props
     global.console.log('Remote videos [render]: ', streamIds)
 
     return (
@@ -22,7 +27,11 @@ class RemoteVideosBox extends Component {
         {streamIds
           .filter(id => id !== 'me')
           .map(id => (
-            <Video id={id} />
+            <Video
+              id={id}
+              pinnedSpeaker={pinnedSpeaker}
+              setPinnedSpeaker={setPinnedSpeaker}
+            />
           ))}
       </div>
     )
