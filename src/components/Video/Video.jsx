@@ -1,7 +1,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 
 import StreamStore from '../../services/StreamStore'
+
+const VideoContainer = styled.div``
+
+const StyledVideo = styled.video``
 
 class Video extends PureComponent {
   static propTypes = {
@@ -15,7 +20,7 @@ class Video extends PureComponent {
   }
 
   static defaultProps = {
-    className: null,
+    className: '',
     setPinnedSpeaker: () => {}
   }
 
@@ -41,16 +46,15 @@ class Video extends PureComponent {
     const { id, className } = this.props
 
     return (
-      <div
-        className={className}
-      >
-        <video
+      <VideoContainer>
+        <StyledVideo
+          className={className}
           autoPlay
           key={id}
-          ref={(c) => { this.attachStream(id, c) }}
+          innerRef={(c) => { this.attachStream(id, c) }}
           onClick={this.handleSetPinnedSpeaker(id)}
         />
-      </div>
+      </VideoContainer>
     )
   }
 }

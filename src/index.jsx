@@ -5,7 +5,7 @@ import { Provider } from 'react-redux'
 import { Router, Route } from 'react-router'
 import store from './store/configureStore'
 import history from './services/history'
-import './common.css'
+import './globalStyles'
 
 import Login from './components/Login'
 import Conference from './containers/Conference'

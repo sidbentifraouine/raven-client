@@ -1,8 +1,22 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import theme from './theme.css'
-
+import styled from 'styled-components'
 import Video from '../Video'
+
+const RemoteVideosBoxContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+`
+
+const RemoteVideo = styled(Video)`
+  object-fit: cover;
+  transform: scaleX(-1);
+  width: 120px;
+  margin-bottom: 15px;
+`
 
 class RemoteVideosBox extends Component {
   static propTypes = {
@@ -20,20 +34,19 @@ class RemoteVideosBox extends Component {
 
   render () {
     const { streamIds, setPinnedSpeaker, pinnedSpeaker } = this.props
-    global.console.log('Remote videos [render]: ', streamIds)
 
     return (
-      <div className={theme.remoteVideosBox}>
+      <RemoteVideosBoxContainer>
         {streamIds
           .filter(id => id !== 'me')
           .map(id => (
-            <Video
+            <RemoteVideo
               id={id}
               pinnedSpeaker={pinnedSpeaker}
               setPinnedSpeaker={setPinnedSpeaker}
             />
           ))}
-      </div>
+      </RemoteVideosBoxContainer>
     )
   }
 }

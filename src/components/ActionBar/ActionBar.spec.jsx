@@ -6,9 +6,10 @@ import Mic from '../Icons/Mic'
 import Video from '../Icons/Video'
 
 const defaultRequiredProps = {
-  toggleMicrophone: () => {},
-  toggleCamera: () => {},
-  toggleScreenSharing: () => {},
+  muteMicrophone: () => {},
+  unmuteMicrophone: () => {},
+  pauseVideo: () => {},
+  resumeVideo: () => {},
   endCall: () => {}
 }
 

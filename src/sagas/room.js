@@ -62,7 +62,6 @@ function * joinRoom (action) {
     const localStream = yield call(getLocalStream)
     yield call(StreamStore.save, myPeerId, localStream)
     yield put({ type: RECEIVED_STREAM, payload: { id: myPeerId } })
-    // yield put({ type: START_VOLUME_METER_PENDING, payload: { id: myPeerId } })
     yield fork(initWebRTC, localStream, action.payload.roomId)
     yield put({ type: JOIN_ROOM_SUCCESS })
   } catch (error) {

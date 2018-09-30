@@ -1,8 +1,12 @@
 import React, { PureComponent } from 'react'
+import styled from 'styled-components'
 import TextField from '../TextField'
 import Button from '../Button'
 import history from '../../services/history'
-import theme from './theme.css'
+
+const LoginContainer = styled.div`
+  position: relative;
+`
 
 class Login extends PureComponent {
   state = {
@@ -19,7 +23,7 @@ class Login extends PureComponent {
 
   render () {
     return (
-      <div className={theme.login}>
+      <LoginContainer>
         <TextField
           value={this.state.room}
           placeholder='Please enter room id'
@@ -30,7 +34,7 @@ class Login extends PureComponent {
           onClick={this.handleEnterClick}
           disabled={!this.state.room}
         />
-      </div>
+      </LoginContainer>
     )
   }
 }

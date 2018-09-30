@@ -1,12 +1,50 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import cx from 'classnames'
+import styled from 'styled-components'
 import Mic from '../Icons/Mic'
 import MicOff from '../Icons/MicOff'
 import Video from '../Icons/Video'
 import VideoOff from '../Icons/VideoOff'
 import CallEnd from '../Icons/CallEnd'
-import theme from './theme.css'
+
+const ActionBarContainer = styled.div`
+  position: absolute;
+  background: #00000080;
+  border-radius: 3px;
+  left: 50%;
+  transform: translateX(-50%);
+  bottom: 40px;
+  overflow: hidden;
+  opacity: ${props => props.isVisible ? 1 : 0};
+  visibility: ${props => props.isVisible ? 'visible' : 'hidden'};
+  transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+`
+
+const ActionBarList = styled.ul`
+  display: flex;
+  flex-direction: row;
+  list-style: none;
+`
+
+const ActionBarListItem = styled.li.attrs({
+  className: props => props.isActive ? 'active' : ''
+})`
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #00000080;
+  }
+
+  &.active {
+    background: #509EE3;
+  }
+`
 
 class ActionsBar extends PureComponent {
   static propTypes = {
@@ -39,36 +77,27 @@ class ActionsBar extends PureComponent {
     } = this.props
 
     return (
-      <div
-        className={cx(theme.actionBar, {
-          [theme.visible]: isVisible
-        })}
-      >
-        <ul className={theme.items}>
-          <li
+      <ActionBarContainer isVisible={isVisible}>
+        <ActionBarList>
+          <ActionBarListItem
+            isActive={!isMicrophoneEnabled}
             onClick={isMicrophoneEnabled ? muteMicrophone : unmuteMicrophone}
-            className={cx(theme.item, {
-              [theme.active]: !isMicrophoneEnabled
-            })}
           >
             {isMicrophoneEnabled ? <Mic /> : <MicOff />}
-          </li>
-          <li
+          </ActionBarListItem>
+          <ActionBarListItem
+            isActive={!isCameraEnabled}
             onClick={isCameraEnabled ? pauseVideo : resumeVideo}
-            className={cx(theme.item, {
-              [theme.active]: !isCameraEnabled
-            })}
           >
             {isCameraEnabled ? <Video /> : <VideoOff />}
-          </li>
-          <li
+          </ActionBarListItem>
+          <ActionBarListItem
             onClick={endCall}
-            className={theme.item}
           >
             <CallEnd />
-          </li>
-        </ul>
-      </div>
+          </ActionBarListItem>
+        </ActionBarList>
+      </ActionBarContainer>
     )
   }
 }

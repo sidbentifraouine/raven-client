@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 import { JOIN_ROOM_PENDING, SET_PINNED_SPEAKER } from '../../actions'
-// import Conference from '../../components/Conference';
 import Conference from './Conference'
 
 const mapStateToProps = state => ({

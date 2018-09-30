@@ -1,14 +1,31 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
+import styled from 'styled-components'
 import Video from '../../components/Video'
 import RemoteVideosBox from '../../components/RemoteVideosBox'
-import theme from './theme.css'
-
 import ActionsBar from '../ActionBar'
 
 const TOOLBAR_REVEAL_DISTANCE = 100
 const ACTIONSBAR_REVEAL_DISTANCE = 150
 const HIDE_CONTROLS_TIMEOUT = 2000
+
+const ConferenceContainer = styled.div`
+  user-select: none;
+  height: 100%;
+  width: 100%;
+  position: relative;
+`
+
+const LocalVideo = styled(Video)`
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  object-fit: cover;
+  transform: scaleX(-1);
+  user-select: none;
+`
 
 class Conference extends PureComponent {
   static propTypes = {
@@ -35,10 +52,10 @@ class Conference extends PureComponent {
   }
 
   handleMouseMove = (event) => {
-    this.isMouseNearToolBar_ = this.isMouseNearToolBar(event) // eslint-disable-line
-    this.isMouseNearActionsBar_ = this.isMouseNearActionsBar(event) // eslint-disable-line
+    this.isMouseNearToolBar_ = this.isMouseNearToolBar(event)
+    this.isMouseNearActionsBar_ = this.isMouseNearActionsBar(event)
 
-    if (this.isMouseNearToolBar_ || this.isMouseNearActionsBar_) { // eslint-disable-line
+    if (this.isMouseNearToolBar_ || this.isMouseNearActionsBar_) {
       this.setState({ isControlsVisible: true })
     }
 
@@ -54,7 +71,7 @@ class Conference extends PureComponent {
   );
 
   hideControls = () => {
-    if (this.isMouseNearToolBar_ || this.isMouseNearActionsBar_) { // eslint-disable-line
+    if (this.isMouseNearToolBar_ || this.isMouseNearActionsBar_) {
       return
     }
 
@@ -74,14 +91,10 @@ class Conference extends PureComponent {
     const { isControlsVisible } = this.state
 
     return (
-      <div
-        className={theme.conference}
+      <ConferenceContainer
         onMouseMove={this.handleMouseMove}
       >
-        <Video
-          id={!pinnedSpeaker && activeSpeaker}
-          className={theme.largeVideo}
-        />
+        <LocalVideo id={!pinnedSpeaker && activeSpeaker} />
         <RemoteVideosBox
           streamIds={peers}
           pinnedSpeaker={pinnedSpeaker}
@@ -90,7 +103,7 @@ class Conference extends PureComponent {
         <ActionsBar
           isVisible={isControlsVisible}
         />
-      </div>
+      </ConferenceContainer>
     )
   }
 }
