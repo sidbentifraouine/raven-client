@@ -18,6 +18,11 @@ $ yarn install
 ```
 $ yarn start
 ```
-**Note**: To run this app you should have signalling server running ([raven-signal](https://github.com/interviewr/raven-signal))
+**Note**: To run this app you should have signalling server running ([raven-signal](https://github.com/interviewr/raven-signal)).
+You can run it separately or via following commands:
+```
+$ make pull-signal
+$ make run-signal
+```
 
 4. Navigate to `https://localhost:3333/${roomId}`

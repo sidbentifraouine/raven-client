@@ -22,3 +22,13 @@ image-run:
 	@ echo "---> Running Docker container ..."
 	@ docker run -it -p 8000:3333 -d --rm --name $(MODULE_NAME) $(IMAGE_URI)/$(MODULE_NAME):$(IMAGE_VERSION)
 .PHONY: image-run
+
+pull-signal:
+	@ echo "---> Pulling raven-signal docker image ..."
+	@ docker pull ok2ju/raven-signal:develop
+.PHONY: pull-signal
+
+run-signal:
+	@ echo "---> Running raven-signal container ..."
+	@ docker run ok2ju/raven-signal:develop
+.PHONY: run-signal
