@@ -1,22 +1,22 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import Video from '../../components/Video'
-import RemoteVideosBox from '../../components/RemoteVideosBox'
-import ActionsBar from '../ActionBar'
+import Video from '../Video'
+import ThumbnailVideos from '../../containers/ThumbnailVideos'
+import ActionBar from '../../containers/ActionBar'
 
 const TOOLBAR_REVEAL_DISTANCE = 100
-const ACTIONSBAR_REVEAL_DISTANCE = 150
+const ACTIONBAR_REVEAL_DISTANCE = 150
 const HIDE_CONTROLS_TIMEOUT = 2000
 
-const ConferenceContainer = styled.div`
+const AppContainer = styled.div`
   user-select: none;
   height: 100%;
   width: 100%;
   position: relative;
 `
 
-const LocalVideo = styled(Video)`
+const MainVideo = styled(Video)`
   width: 100%;
   height: 100%;
   position: absolute;
@@ -27,19 +27,17 @@ const LocalVideo = styled(Video)`
   user-select: none;
 `
 
-class Conference extends PureComponent {
+class App extends PureComponent {
   static propTypes = {
-    peers: PropTypes.array.isRequired,
-    activeSpeaker: PropTypes.oneOfType([
+    activePeerId: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.object
     ]),
-    pinnedSpeaker: PropTypes.oneOfType([
+    pinnedPeerId: PropTypes.oneOfType([
       PropTypes.string,
       PropTypes.object
     ]),
     joinRoom: PropTypes.func.isRequired,
-    setPinnedSpeaker: PropTypes.func.isRequired,
     params: PropTypes.object.isRequired
   };
 
@@ -67,7 +65,7 @@ class Conference extends PureComponent {
   );
 
   isMouseNearActionsBar = event => (
-    event.pageY > window.innerHeight - ACTIONSBAR_REVEAL_DISTANCE
+    event.pageY > window.innerHeight - ACTIONBAR_REVEAL_DISTANCE
   );
 
   hideControls = () => {
@@ -87,25 +85,19 @@ class Conference extends PureComponent {
   };
 
   render () {
-    const { peers, activeSpeaker, setPinnedSpeaker, pinnedSpeaker } = this.props
+    const { activePeerId, pinnedPeerId } = this.props
     const { isControlsVisible } = this.state
 
     return (
-      <ConferenceContainer
-        onMouseMove={this.handleMouseMove}
-      >
-        <LocalVideo id={!pinnedSpeaker && activeSpeaker} />
-        <RemoteVideosBox
-          streamIds={peers}
-          pinnedSpeaker={pinnedSpeaker}
-          setPinnedSpeaker={setPinnedSpeaker}
+      <AppContainer onMouseMove={this.handleMouseMove}>
+        <MainVideo
+          peerId={!pinnedPeerId ? activePeerId : pinnedPeerId}
         />
-        <ActionsBar
-          isVisible={isControlsVisible}
-        />
-      </ConferenceContainer>
+        <ThumbnailVideos />
+        <ActionBar isVisible={isControlsVisible} />
+      </AppContainer>
     )
   }
 }
 
-export default Conference
+export default App

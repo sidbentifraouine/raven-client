@@ -1,60 +1,36 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-
 import StreamStore from '../../services/StreamStore'
-
-const VideoContainer = styled.div``
 
 const StyledVideo = styled.video``
 
 class Video extends PureComponent {
   static propTypes = {
-    id: PropTypes.string.isRequired,
+    peerId: PropTypes.string,
     className: PropTypes.string,
-    setPinnedSpeaker: PropTypes.func,
-    pinnedSpeaker: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.object
-    ])
+    onClick: PropTypes.func
   }
 
   static defaultProps = {
     className: '',
-    setPinnedSpeaker: () => {}
+    onClick: () => {}
   }
 
   attachStream = (id, node) => {
     if (node) {
-      node.srcObject = StreamStore.get(id) // eslint-disable-line
-    }
-  };
-
-  handleSetPinnedSpeaker = id => () => {
-    if (this.isSpeakerAlreadyPinned()) {
-      this.props.setPinnedSpeaker(null)
-    } else {
-      this.props.setPinnedSpeaker(id)
+      node.srcObject = StreamStore.get(id)
     }
   }
 
-  isSpeakerAlreadyPinned = () => (
-    this.props.id === this.props.pinnedSpeaker
-  )
-
   render () {
-    const { id, className } = this.props
-
     return (
-      <VideoContainer>
-        <StyledVideo
-          className={className}
-          autoPlay
-          key={id}
-          innerRef={(c) => { this.attachStream(id, c) }}
-          onClick={this.handleSetPinnedSpeaker(id)}
-        />
-      </VideoContainer>
+      <StyledVideo
+        autoPlay
+        className={this.props.className}
+        innerRef={(c) => { this.attachStream(this.props.peerId, c) }}
+        onClick={this.props.onClick}
+      />
     )
   }
 }

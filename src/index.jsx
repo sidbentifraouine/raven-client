@@ -8,13 +8,14 @@ import history from './services/history'
 import './globalStyles'
 
 import Login from './components/Login'
-import Conference from './containers/Conference'
+import App from './containers/App'
 
 ReactDOM.render(
   <Provider store={store}>
     <Router history={history}>
       <Route path='/' component={Login} />
-      <Route path=':roomId' component={Conference} />
+      <Route path=':roomId' component={App} />
+      <Route path='/feedback' component={() => (<div>test</div>)} />
     </Router>
   </Provider>,
   document.getElementById('app')

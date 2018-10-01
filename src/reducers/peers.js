@@ -1,15 +1,15 @@
 import {
   RECEIVED_STREAM,
   PEER_DISCONNECTED,
-  SET_ACTIVE_SPEAKER,
-  SET_PINNED_SPEAKER
+  SET_ACTIVE_PEER,
+  SET_PINNED_PEER,
+  END_CALL
 } from '../actions'
-import myPeerId from '../constants'
 
 export const initialState = {
   ids: [],
-  activeSpeaker: myPeerId,
-  pinnedSpeaker: null
+  activePeerId: null,
+  pinnedPeerId: null
 }
 
 export function peers (state = initialState, action) {
@@ -24,16 +24,18 @@ export function peers (state = initialState, action) {
         ...state,
         ids: state.ids.filter(id => id !== action.payload.id)
       }
-    case SET_ACTIVE_SPEAKER:
+    case SET_ACTIVE_PEER:
       return {
         ...state,
-        activeSpeaker: action.payload.id
+        activePeerId: action.payload.id
       }
-    case SET_PINNED_SPEAKER:
+    case SET_PINNED_PEER:
       return {
         ...state,
-        pinnedSpeaker: action.payload.id
+        pinnedPeerId: action.payload.id
       }
+    case END_CALL:
+      return initialState
     default:
       return state
   }

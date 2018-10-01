@@ -6,7 +6,8 @@ import {
   PAUSE_VIDEO_SUCCESS,
   PAUSE_VIDEO_ERROR,
   RESUME_VIDEO_SUCCESS,
-  RESUME_VIDEO_ERROR
+  RESUME_VIDEO_ERROR,
+  END_CALL
 } from '../actions'
 
 export const initialState = {
@@ -44,6 +45,8 @@ export function actionsBar (state = initialState, action) {
       }
     case RESUME_VIDEO_ERROR:
       return {}
+    case END_CALL:
+      return initialState
     default:
       return state
   }

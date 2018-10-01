@@ -6,16 +6,16 @@ import {
   JOIN_ROOM_SUCCESS,
   JOIN_ROOM_ERROR,
 
-  LEAVE_ROOM_PENDING,
-  LEAVE_ROOM_SUCCESS,
-  LEAVE_ROOM_ERROR,
-
   RECEIVED_STREAM,
   PEER_CONNECTED,
-  PEER_DISCONNECTED
+  PEER_DISCONNECTED,
+
+  SET_ACTIVE_PEER,
+  END_CALL
 } from '../actions'
 import getLocalStream from '../services/localStream'
 import StreamStore from '../services/StreamStore'
+import history from '../services/history'
 import myPeerId from '../constants'
 
 function * initWebRTC (localStream, roomId) {
@@ -62,6 +62,7 @@ function * joinRoom (action) {
     const localStream = yield call(getLocalStream)
     yield call(StreamStore.save, myPeerId, localStream)
     yield put({ type: RECEIVED_STREAM, payload: { id: myPeerId } })
+    yield put({ type: SET_ACTIVE_PEER, payload: { id: myPeerId } })
     yield fork(initWebRTC, localStream, action.payload.roomId)
     yield put({ type: JOIN_ROOM_SUCCESS })
   } catch (error) {
@@ -69,17 +70,22 @@ function * joinRoom (action) {
   }
 }
 
-function * leaveRoom () {
+function endCall () {
   try {
-    yield put({ type: LEAVE_ROOM_SUCCESS })
+    const localStreamTracks = StreamStore.get(myPeerId).getTracks()
+    localStreamTracks.forEach((track) => {
+      track.stop()
+    })
+    StreamStore.clear()
+    history.push('/feedback')
   } catch (error) {
-    yield put({ type: LEAVE_ROOM_ERROR })
+    console.error('endCall error:', error)
   }
 }
 
 export default function () {
   return all([
     takeLatest(JOIN_ROOM_PENDING, joinRoom),
-    takeLatest(LEAVE_ROOM_PENDING, leaveRoom)
+    takeLatest(END_CALL, endCall)
   ])
 }

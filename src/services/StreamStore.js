@@ -12,6 +12,10 @@ class StreamStore {
   static remove (id) {
     delete StreamStore.streams[id]
   }
+
+  static clear () {
+    StreamStore.streams = {}
+  }
 }
 
 export default StreamStore
