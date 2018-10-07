@@ -5,7 +5,9 @@ import Video from '../Video'
 import ThumbnailVideos from '../../containers/ThumbnailVideos'
 import ActionBar from '../../containers/ActionBar'
 
-const TOOLBAR_REVEAL_DISTANCE = 100
+import { Tabs, Tab } from '../Tabs'
+
+const TABS_REVEAL_DISTANCE = 150
 const ACTIONBAR_REVEAL_DISTANCE = 150
 const HIDE_CONTROLS_TIMEOUT = 2000
 
@@ -42,6 +44,7 @@ class App extends PureComponent {
   };
 
   state = {
+    index: 0,
     isControlsVisible: false
   };
 
@@ -49,19 +52,23 @@ class App extends PureComponent {
     this.props.joinRoom(this.props.params.roomId)
   }
 
+  handleTabChange = (index) => {
+    this.setState({ index })
+  }
+
   handleMouseMove = (event) => {
-    this.isMouseNearToolBar_ = this.isMouseNearToolBar(event)
+    this.isMouseNearTabs_ = this.isMouseNearTabs(event)
     this.isMouseNearActionsBar_ = this.isMouseNearActionsBar(event)
 
-    if (this.isMouseNearToolBar_ || this.isMouseNearActionsBar_) {
+    if (this.isMouseNearTabs_ || this.isMouseNearActionsBar_) {
       this.setState({ isControlsVisible: true })
     }
 
     this.hideControlsAfterTimeout()
   };
 
-  isMouseNearToolBar = event => (
-    event.pageX < TOOLBAR_REVEAL_DISTANCE
+  isMouseNearTabs = event => (
+    event.pageY < TABS_REVEAL_DISTANCE
   );
 
   isMouseNearActionsBar = event => (
@@ -69,7 +76,7 @@ class App extends PureComponent {
   );
 
   hideControls = () => {
-    if (this.isMouseNearToolBar_ || this.isMouseNearActionsBar_) {
+    if (this.isMouseNearTabs_ || this.isMouseNearActionsBar_) {
       return
     }
 
@@ -86,15 +93,23 @@ class App extends PureComponent {
 
   render () {
     const { activePeerId, pinnedPeerId } = this.props
-    const { isControlsVisible } = this.state
+    const { index, isControlsVisible } = this.state
 
     return (
       <AppContainer onMouseMove={this.handleMouseMove}>
-        <MainVideo
-          peerId={!pinnedPeerId ? activePeerId : pinnedPeerId}
-        />
-        <ThumbnailVideos />
-        <ActionBar isVisible={isControlsVisible} />
+        <Tabs
+          index={index}
+          onChange={this.handleTabChange}
+        >
+          <Tab label='Conference'>
+            <MainVideo peerId={!pinnedPeerId ? activePeerId : pinnedPeerId} />
+            <ThumbnailVideos />
+            <ActionBar isVisible={isControlsVisible} />
+          </Tab>
+          <Tab label='Code Editor'>
+            <h1>Code Editor</h1>
+          </Tab>
+        </Tabs>
       </AppContainer>
     )
   }
