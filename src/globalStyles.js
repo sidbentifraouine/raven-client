@@ -1,5 +1,4 @@
 import { injectGlobal } from 'styled-components'
-import variables from './constants/styles'
 
 injectGlobal`
   @font-face {
@@ -24,9 +23,9 @@ injectGlobal`
   }
 
   body {
-    font-family: ${variables.preferredFont};
-    font-size: ${variables.fontSizeNormal};
-    font-weight: ${variables.fontWeightNormal};
+    font-family: "Open Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 400;
     width: 100%;
     height: 100%;
     padding: 0;

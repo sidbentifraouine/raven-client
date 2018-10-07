@@ -9,7 +9,7 @@ import CallEnd from '../Icons/CallEnd'
 
 const ActionBarContainer = styled.div`
   position: absolute;
-  background: #00000080;
+  background: ${props => props.theme.colors.darkGray};
   border-radius: 3px;
   left: 50%;
   transform: translateX(-50%);
@@ -38,11 +38,11 @@ const ActionBarListItem = styled.li.attrs({
   justify-content: center;
 
   &:hover {
-    background: #00000080;
+    background: ${props => props.theme.colors.darkGray};
   }
 
   &.active {
-    background: #509EE3;
+    background: ${props => props.theme.colors.lightBlue};
   }
 `
 
