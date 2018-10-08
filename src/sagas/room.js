@@ -15,7 +15,6 @@ import {
 } from '../actions'
 import getLocalStream from '../services/localStream'
 import StreamStore from '../services/StreamStore'
-import history from '../services/history'
 import myPeerId from '../constants'
 
 function * initWebRTC (localStream, roomId) {
@@ -70,7 +69,7 @@ function * joinRoom (action) {
   }
 }
 
-function endCall () {
+function endCall (history) {
   try {
     const localStreamTracks = StreamStore.get(myPeerId).getTracks()
     localStreamTracks.forEach((track) => {

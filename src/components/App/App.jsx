@@ -38,7 +38,7 @@ class App extends PureComponent {
       PropTypes.object
     ]),
     joinRoom: PropTypes.func.isRequired,
-    params: PropTypes.object.isRequired
+    params: PropTypes.object
   };
 
   state = {
@@ -46,7 +46,7 @@ class App extends PureComponent {
   };
 
   componentWillMount () {
-    this.props.joinRoom(this.props.params.roomId)
+    this.props.joinRoom(this.props.match.params.roomId)
   }
 
   handleMouseMove = (event) => {
@@ -94,7 +94,7 @@ class App extends PureComponent {
           peerId={!pinnedPeerId ? activePeerId : pinnedPeerId}
         />
         <ThumbnailVideos />
-        <ActionBar isVisible={isControlsVisible} />
+        <ActionBar  isVisible={isControlsVisible} />
       </AppContainer>
     )
   }

@@ -92,7 +92,7 @@ class ActionsBar extends PureComponent {
             {isCameraEnabled ? <Video /> : <VideoOff />}
           </ActionBarListItem>
           <ActionBarListItem
-            onClick={endCall}
+            onClick={() => endCall(this.props.history)}
           >
             <CallEnd />
           </ActionBarListItem>

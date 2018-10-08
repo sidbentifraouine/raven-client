@@ -1,11 +1,10 @@
 import '@babel/polyfill'
-import React from 'react'
+import React, { Fragment } from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from 'styled-components'
-import { Router, Route } from 'react-router'
+import { BrowserRouter as Router, Route } from 'react-router-dom'
 import store from './store/configureStore'
-import history from './services/history'
 import './globalStyles'
 
 import theme from './themes/default'
@@ -16,10 +15,12 @@ import App from './containers/App'
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider theme={theme}>
-      <Router history={history}>
-        <Route path='/' component={Login} />
-        <Route path=':roomId' component={App} />
-        <Route path='/feedback' component={() => (<div>test</div>)} />
+      <Router>
+        <Fragment>
+          <Route exact path='/' component={Login} />
+          <Route path='/room/:roomId' component={App} />
+          <Route path='/feedback' component={() => (<div>test</div>)} />
+        </Fragment>
       </Router>
     </ThemeProvider>
   </Provider>,

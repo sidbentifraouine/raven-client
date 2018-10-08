@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react'
 import styled from 'styled-components'
 import TextField from '../TextField'
 import Button from '../Button'
-import history from '../../services/history'
 
 const LoginContainer = styled.div`
   position: relative;
@@ -18,7 +17,7 @@ class Login extends PureComponent {
   };
 
   handleEnterClick = () => {
-    history.push(`/${this.state.room}`)
+    this.props.history.push(`/room/${this.state.room}`)
   };
 
   render () {
