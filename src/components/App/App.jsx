@@ -94,7 +94,7 @@ class App extends PureComponent {
           peerId={!pinnedPeerId ? activePeerId : pinnedPeerId}
         />
         <ThumbnailVideos />
-        <ActionBar  isVisible={isControlsVisible} />
+        <ActionBar isVisible={isControlsVisible} />
       </AppContainer>
     )
   }

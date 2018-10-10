@@ -64,6 +64,10 @@ class ActionsBar extends PureComponent {
     isCameraEnabled: false
   };
 
+  handleEndCallClick = () => {
+    this.props.endCall(this.props.history)
+  }
+
   render () {
     const {
       isVisible,
@@ -72,8 +76,7 @@ class ActionsBar extends PureComponent {
       muteMicrophone,
       unmuteMicrophone,
       pauseVideo,
-      resumeVideo,
-      endCall
+      resumeVideo
     } = this.props
 
     return (
@@ -92,7 +95,7 @@ class ActionsBar extends PureComponent {
             {isCameraEnabled ? <Video /> : <VideoOff />}
           </ActionBarListItem>
           <ActionBarListItem
-            onClick={() => endCall(this.props.history)}
+            onClick={this.handleEndCallClick}
           >
             <CallEnd />
           </ActionBarListItem>
